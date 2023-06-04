@@ -6,7 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 9</title>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "90ba5ae7c98c44e88e6c177e421f0110"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
   <style>
     button {
       margin: 3px;
@@ -102,6 +109,89 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    const buttons = document.querySelectorAll('#error-btns > button');
+    buttons[0].addEventListener('click', () => {
+      console.log('Console Log Button');
+    });
+    buttons[1].addEventListener('click', () => {
+      console.error('Console Error');
+    });
+    buttons[2].addEventListener('click', () => {
+      console.count('Console Count');
+    });
+    buttons[3].addEventListener('click', () => {
+      console.warn('Console Warn');
+    });
+    buttons[4].addEventListener('click', () => {
+      console.assert('a' === 'b', 'a does not equal b');
+    });
+    buttons[5].addEventListener('click', () => {
+      console.clear();
+    });
+    buttons[6].addEventListener('click', () => {
+      console.dir(buttons[6]);
+    });
+    buttons[7].addEventListener('click', () => {
+      console.dirxml(buttons[7]);
+    });
+    buttons[8].addEventListener('click', () => {
+      console.group('Console Group');
+    });
+    buttons[9].addEventListener('click', () => {
+      console.groupEnd();
+    });
+    buttons[10].addEventListener('click', () => {
+      console.table(['a', 'b', 'c']);
+    });
+    buttons[11].addEventListener('click', () => {
+      console.time("timer");
+    });
+    buttons[12].addEventListener('click', () => {
+      console.timeEnd('timer');
+    });
+    buttons[13].addEventListener('click', () => {
+      function fun1() {
+        fun2();
+      }
+      function fun2(){
+        console.trace()
+      }
+      fun1();
+    });
+    errorBtns[14].addEventListener('click', () => {
+      charsEqual('aa', 'A'); 
+    });
+
+    // step 3
+    TrackJS.track('NotAChar Error');
+    function charsEqual(firstLetter, secondLetter){
+      if (typeof(firstLetter) != 'string' || typeof(secondLetter) != 'string'){
+        throw new NotAChar('must input a string');
+      }
+      else if (firstLetter.length != 1 || secondLetter.length != 1){
+        throw new NotAChar('must input a single char');
+      }
+      return (firstLetter === secondLetter);
+    }
+
+    class NotAChar extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "NotAChar";
+      }
+    }
+
+    try {
+      let success = charsEqual('b', 'B');
+      console.log('inputs equal returned:', success)
+    }
+    catch(err) {
+      console.log("charsEqual caused an error:", err);
+    }
+    finally {
+      console.log("Try and catch finished");
+    }
+    TrackJS.track('Testing TrackJS!');
   </script>
 </body>
 
